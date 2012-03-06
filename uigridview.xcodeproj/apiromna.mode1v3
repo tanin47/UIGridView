@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -273,7 +271,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
+									<integer>14</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -309,12 +307,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>UIGridView.m</string>
+								<string>RootViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -322,26 +322,26 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>UIGridView.m</string>
+										<string>RootViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>F2D03FF615066C5F00F4E2C1</string>
+										<string>F2D040321506761D00F4E2C1</string>
 										<key>history</key>
 										<array>
 											<string>F2D03FE915066C5F00F4E2C1</string>
 											<string>F2D03FEA15066C5F00F4E2C1</string>
-											<string>F2D03FEB15066C5F00F4E2C1</string>
 											<string>F2D03FEC15066C5F00F4E2C1</string>
 											<string>F2D03FED15066C5F00F4E2C1</string>
 											<string>F2D03FEE15066C5F00F4E2C1</string>
 											<string>F2D03FEF15066C5F00F4E2C1</string>
 											<string>F2D03FF015066C5F00F4E2C1</string>
-											<string>F2D03FF115066C5F00F4E2C1</string>
 											<string>F2D03FF215066C5F00F4E2C1</string>
 											<string>F2D03FF315066C5F00F4E2C1</string>
-											<string>F2D03FF415066C5F00F4E2C1</string>
-											<string>F2D03FF515066C5F00F4E2C1</string>
+											<string>F2D0400B1506757400F4E2C1</string>
+											<string>F2D0402C1506760C00F4E2C1</string>
+											<string>F2D040301506761D00F4E2C1</string>
+											<string>F2D040311506761D00F4E2C1</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -539,10 +539,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>F2D03FF715066C5F00F4E2C1</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>F2D03FB31506695600F4E2C1</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/apiromna/Desktop/iPhone/uigridview/uigridview.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -925,7 +924,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

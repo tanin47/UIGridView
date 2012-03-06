@@ -83,7 +83,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int residue =  ([uiGridViewDelegate numberOfCellsOfGridView:self] % [uiGridViewDelegate numberOfCellsOfGridView:self]);
+	int residue =  ([uiGridViewDelegate numberOfCellsOfGridView:self] % [uiGridViewDelegate numberOfColumnsOfGridView:self]);
 	
 	if (residue > 0) residue = 1;
 	
@@ -114,7 +114,14 @@
 	
 	for (int i=0;i<numCols;i++) {
 		
-		if ((i + indexPath.row * numCols) >= count) continue;
+		if ((i + indexPath.row * numCols) >= count) {
+			
+			if ([row.contentView.subviews count] > i) {
+				((UIGridViewCell *)[row.contentView.subviews objectAtIndex:i]).hidden = YES;
+			}
+			
+			continue;
+		}
 		
 		if ([row.contentView.subviews count] > i) {
 			tempCell = [row.contentView.subviews objectAtIndex:i];
@@ -133,6 +140,7 @@
 			[cell addTarget:self action:@selector(cellPressed:) forControlEvents:UIControlEventTouchUpInside];
 		}
 		
+		cell.hidden = NO;
 		cell.rowIndex = indexPath.row;
 		cell.colIndex = i;
 		

@@ -77,7 +77,7 @@
 
 - (NSInteger) numberOfCellsOfGridView:(UIGridView *) grid
 {
-	return 37;
+	return 33;
 }
 
 - (UIGridViewCell *) gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex
