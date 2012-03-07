@@ -12,7 +12,7 @@ It supports:
 
 Here is how it looks like:
 
-![UIGridView Example](./uigridview_example.png)
+![UIGridView Example](./raw/master/uigridview_example.png)
 
 
 How to use it
