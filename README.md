@@ -65,12 +65,10 @@ Author
 ------------------------
 Tanin Na Nakorn
 
+
 License
-------------------------
-This project is under Tanin License, which means:
+---------
 
-1. You can use it under a free/commercial/whatever project
-2. You can do whatever you want with it
-3. You can steal it and declare that you build it.
+Do What The Fuck You Want To Public License (http://sam.zoy.org/wtfpl/)
 
-There is no need to give the owner credit.
+0. You just DO WHAT THE FUCK YOU WANT TO.
