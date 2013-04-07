@@ -11,7 +11,7 @@
 #import "UIGridViewDelegate.h"
 
 @interface RootViewController : UIViewController<UIGridViewDelegate> {
-
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIGridView *table;

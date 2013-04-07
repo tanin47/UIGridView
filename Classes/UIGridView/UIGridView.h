@@ -15,11 +15,11 @@
 	UIGridViewCell *tempCell;
 }
 
-@property (nonatomic, retain) IBOutlet id<UIGridViewDelegate> uiGridViewDelegate;
+@property (nonatomic, retain) id<UIGridViewDelegate> uiGridViewDelegate;
 
 - (void) setUp;
 - (UIGridViewCell *) dequeueReusableCell;
 
-- (IBAction) cellPressed:(id) sender;
+- (void) cellPressed:(id) sender;
 
 @end

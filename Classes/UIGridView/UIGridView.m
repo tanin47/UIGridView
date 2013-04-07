@@ -11,8 +11,6 @@
 #import "UIGridViewCell.h"
 #import "UIGridViewRow.h"
 
-#import "ECGridCatalogueCell.h"
-
 @implementation UIGridView
 
 
@@ -174,14 +172,21 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [uiGridViewDelegate gridView:self willDisplayRowAtIndexPath:indexPath];
+    
+    if ([(NSObject *)uiGridViewDelegate respondsToSelector:@selector(gridView:willDisplayRowAtIndexPath:)]) {
+        [uiGridViewDelegate gridView:self willDisplayRowAtIndexPath:indexPath];
+    }
+
 }
 
 -(void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [uiGridViewDelegate gridView:self didEndDisplayingRowAtIndexPath:indexPath];
+    
+    if ([(NSObject *)uiGridViewDelegate respondsToSelector:@selector(gridView:didEndDisplayingRowAtIndexPath:)]) {
+        [uiGridViewDelegate gridView:self didEndDisplayingRowAtIndexPath:indexPath];
+    }
 }
 
-- (IBAction) cellPressed:(UITapGestureRecognizer *) sender
+- (void) cellPressed:(UITapGestureRecognizer *) sender
 {
 	UIGridViewCell *cell = (UIGridViewCell *) sender.view;
     
@@ -200,7 +205,11 @@
         cell.isEditing = NO;
     }
     else{
-        [uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex Section:cell.sectionIndex];
+        
+        if ([(NSObject *)uiGridViewDelegate respondsToSelector:@selector(gridView:didSelectRowAt:AndColumnAt:Section:)]) {
+            [uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex Section:cell.sectionIndex];
+        }
+        
     }
 }
 
@@ -229,7 +238,10 @@
 }
 
 -(void)deleteButtonPressed:(UIIndexedButton *)sender{
-    [uiGridViewDelegate gridView:self didEditRowAt:sender.buttonRow AndColumnAt:sender.buttonColumn InSection:sender.buttonSection];
+    
+    if ([(NSObject *)uiGridViewDelegate respondsToSelector:@selector(gridView:didEditRowAt:AndColumnAt:InSection:)]) {
+        [uiGridViewDelegate gridView:self didEditRowAt:sender.buttonRow AndColumnAt:sender.buttonColumn InSection:sender.buttonSection];
+    }
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{

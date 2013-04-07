@@ -14,8 +14,8 @@
 @optional
 - (void) gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)columnIndex Section:(int)section;
 - (void)gridView:(UIGridView *)grid willDisplayRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)gridView:(UIGridView *)grid didEndDisplayingRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)gridView:(UIGridView *)grid didEditRowAt:(int)row AndColumnAt:(int)column InSection:(int)section;
+- (void)gridView:(UIGridView *)grid didEndDisplayingRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)gridView:(UIGridView *)grid didEditRowAt:(int)row AndColumnAt:(int)column InSection:(int)section;
 
 
 @required

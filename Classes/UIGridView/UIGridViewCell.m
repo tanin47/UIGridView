@@ -15,6 +15,13 @@
 @synthesize colIndex;
 @synthesize view;
 
+-(id)init{
+    self = [super init];
+    _isEditing = NO;
+    self.deleteButton = [[UIIndexedButton alloc]init];
+    return self;
+}
+
 - (void) addSubview:(UIView *)v
 {
 	[super addSubview:v];

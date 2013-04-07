@@ -19,7 +19,7 @@
 @property int sectionIndex;
 @property (nonatomic, retain) IBOutlet UIView *view;
 @property (nonatomic, assign) BOOL isEditing;
-@property (readonly) BOOL editable;
+@property BOOL editable;
 @property (nonatomic, retain) UIIndexedButton *deleteButton;
 @property (nonatomic, retain) UIView *container;
 
