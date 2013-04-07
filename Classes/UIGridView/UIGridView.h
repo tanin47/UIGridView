@@ -11,7 +11,7 @@
 @protocol UIGridViewDelegate;
 @class UIGridViewCell;
 
-@interface UIGridView : UITableView<UITableViewDelegate, UITableViewDataSource> {
+@interface UIGridView : UITableView<UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate> {
 	UIGridViewCell *tempCell;
 }
 

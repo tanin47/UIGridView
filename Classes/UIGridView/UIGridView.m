@@ -11,6 +11,8 @@
 #import "UIGridViewCell.h"
 #import "UIGridViewRow.h"
 
+#import "ECGridCatalogueCell.h"
+
 @implementation UIGridView
 
 
@@ -45,21 +47,6 @@
 	self.dataSource = self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code.
-}
-*/
-
-- (void)dealloc {
-	self.delegate = nil;
-	self.dataSource = nil;
-	self.uiGridViewDelegate = nil;
-    [super dealloc];
-}
-
 - (UIGridViewCell *) dequeueReusableCell
 {
 	UIGridViewCell* temp = tempCell;
@@ -77,23 +64,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return [uiGridViewDelegate numberOfSectionInGridView:self];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int residue =  ([uiGridViewDelegate numberOfCellsOfGridView:self] % [uiGridViewDelegate numberOfColumnsOfGridView:self]);
+	int residue =  ([uiGridViewDelegate numberOfCellsOfGridView:self ForSection:section] % [uiGridViewDelegate numberOfColumnsOfGridView:self ForSection:section]);
 	
 	if (residue > 0) residue = 1;
 	
-	return ([uiGridViewDelegate numberOfCellsOfGridView:self] / [uiGridViewDelegate numberOfColumnsOfGridView:self]) + residue;
+	return ([uiGridViewDelegate numberOfCellsOfGridView:self ForSection:section] / [uiGridViewDelegate numberOfColumnsOfGridView:self ForSection:section]) + residue;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row];
+    return [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row Section:indexPath.section];
 }
 
 
@@ -101,16 +88,16 @@
 {
     static NSString *CellIdentifier = @"UIGridViewRow";
 	
-    UIGridViewRow *row = (UIGridViewRow *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UIGridViewRow *row = nil;//(UIGridViewRow *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (row == nil) {
-        row = [[[UIGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        row = [[UIGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 	
-	int numCols = [uiGridViewDelegate numberOfColumnsOfGridView:self];
-	int count = [uiGridViewDelegate numberOfCellsOfGridView:self];
+	int numCols = [uiGridViewDelegate numberOfColumnsOfGridView:self ForSection:indexPath.section];
+	int count = [uiGridViewDelegate numberOfCellsOfGridView:self ForSection:indexPath.section];
 	
 	CGFloat x = 0.0;
-	CGFloat height = [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row];
+	CGFloat height = [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row Section:indexPath.section];
 	
 	for (int i=0;i<numCols;i++) {
 		
@@ -131,20 +118,49 @@
 		
 		UIGridViewCell *cell = [uiGridViewDelegate gridView:self 
 												cellForRowAt:indexPath.row 
-												 AndColumnAt:i];
+												 AndColumnAt:i
+                                                     Section:indexPath.section];
 		
 		if (cell.superview != row.contentView) {
 			[cell removeFromSuperview];
 			[row.contentView addSubview:cell];
 			
-			[cell addTarget:self action:@selector(cellPressed:) forControlEvents:UIControlEventTouchUpInside];
+            UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cellPressed:)];
+            [tapGR setDelegate:self];
+            [cell addGestureRecognizer:tapGR];
+			
+            if (cell.editable) {
+                UISwipeGestureRecognizer *swipeGR = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(cellSwiped:)];
+                [swipeGR setDirection:UISwipeGestureRecognizerDirectionLeft];
+                [cell addGestureRecognizer:swipeGR];
+                
+                UISwipeGestureRecognizer *swipeRightGR = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(cellSwiped:)];
+                [swipeRightGR setDirection:UISwipeGestureRecognizerDirectionRight];
+                [cell addGestureRecognizer:swipeRightGR];
+                
+                cell.container = [[UIView alloc]initWithFrame:CGRectMake(cell.bounds.size.width-10, (cell.bounds.size.height/2)-15 , 0, 30)];
+                [cell.deleteButton setFrame:CGRectMake(-60, 0 , 60, 30)];
+                [cell.deleteButton setBackgroundImage:[[UIImage imageNamed:@"Button_Delete"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+                [cell.deleteButton setTitle:NSLocalizedString(@"DELETE", nil) forState:UIControlStateNormal];
+                [cell.deleteButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+                [cell.deleteButton setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
+                [cell.deleteButton addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.container setClipsToBounds:YES];
+                [cell.deleteButton setButtonRow:indexPath.row];
+                [cell.deleteButton setButtonColumn:i];
+                [cell.container addSubview:cell.deleteButton];
+                [cell.view addSubview:cell.container];
+                cell.isEditing = NO;
+                [cell.view bringSubviewToFront:cell.deleteButton];
+            }
 		}
 		
 		cell.hidden = NO;
 		cell.rowIndex = indexPath.row;
 		cell.colIndex = i;
+        cell.sectionIndex = indexPath.section;
 		
-		CGFloat thisWidth = [uiGridViewDelegate gridView:self widthForColumnAt:i];
+		CGFloat thisWidth = [uiGridViewDelegate gridView:self widthForColumnAt:i Section:indexPath.section];
 		cell.frame = CGRectMake(x, 0, thisWidth, height);
 		x += thisWidth;
 	}
@@ -157,12 +173,76 @@
     return row;
 }
 
-
-- (IBAction) cellPressed:(id) sender
-{
-	UIGridViewCell *cell = (UIGridViewCell *) sender;
-	[uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [uiGridViewDelegate gridView:self willDisplayRowAtIndexPath:indexPath];
 }
 
+-(void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [uiGridViewDelegate gridView:self didEndDisplayingRowAtIndexPath:indexPath];
+}
+
+- (IBAction) cellPressed:(UITapGestureRecognizer *) sender
+{
+	UIGridViewCell *cell = (UIGridViewCell *) sender.view;
+    
+    if (cell.isEditing) {
+        CGRect frame = cell.deleteButton.frame;
+        CGPoint point = [sender locationInView:cell.deleteButton];
+        if (CGRectContainsPoint(frame, point)) {
+            [self deleteButtonPressed:cell.deleteButton];
+        }
+        
+        [UIView beginAnimations:@"button" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.1];
+        [cell.container setFrame:CGRectMake(cell.bounds.size.width-10, (cell.bounds.size.height/2)-15 , 0, cell.deleteButton.frame.size.height)];
+        [UIView commitAnimations];
+        cell.isEditing = NO;
+    }
+    else{
+        [uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex Section:cell.sectionIndex];
+    }
+}
+
+- (void) cellSwiped:(UISwipeGestureRecognizer *)sender{
+    UIGridViewCell *cell = (UIGridViewCell *) sender.view;
+    
+    if (!cell.isEditing) {
+        
+        [cell.container setFrame:CGRectMake(cell.bounds.size.width-10, (cell.bounds.size.height/2)-15 , 0, cell.deleteButton.frame.size.height)];
+        [UIView beginAnimations:@"button" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.1];
+        [cell.container setFrame:CGRectMake(cell.bounds.size.width-70, (cell.bounds.size.height/2)-15 , cell.deleteButton.frame.size.width, cell.deleteButton.frame.size.height)];
+        cell.isEditing = YES;
+        [UIView commitAnimations];
+    }
+    else{
+        [cell.container setFrame:CGRectMake(cell.bounds.size.width-70, (cell.bounds.size.height/2)-15 , cell.deleteButton.frame.size.width, cell.deleteButton.frame.size.height)];
+        [UIView beginAnimations:@"button" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.1];
+        [cell.container setFrame:CGRectMake(cell.bounds.size.width-10, (cell.bounds.size.height/2)-15 , 0, cell.deleteButton.frame.size.height)];
+        [UIView commitAnimations];
+        cell.isEditing = NO;
+    }
+}
+
+-(void)deleteButtonPressed:(UIIndexedButton *)sender{
+    [uiGridViewDelegate gridView:self didEditRowAt:sender.buttonRow AndColumnAt:sender.buttonColumn InSection:sender.buttonSection];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    UIGridViewCell *cell = (UIGridViewCell *) gestureRecognizer.view;
+    
+    if (cell.isEditing) {
+        CGRect frame = cell.deleteButton.frame;
+        CGPoint point = [touch locationInView:cell.deleteButton];
+        if (CGRectContainsPoint(frame, point)) {
+            return NO;
+        }
+    }
+    return YES;
+}
 
 @end

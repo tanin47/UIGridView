@@ -19,7 +19,7 @@
 {
 	[super addSubview:v];
 	v.exclusiveTouch = NO;
-	v.userInteractionEnabled = NO;
+	//v.userInteractionEnabled = NO;
 }
 
 
