@@ -9,78 +9,48 @@
 #import "RootViewController.h"
 #import "Cell.h"
 
-@implementation RootViewController
+@implementation RootViewController{
+    
+    int objectNumber;
+}
 
 
 @synthesize table;
 
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization.
-    }
-    return self;
+-(void)viewDidLoad{
+    objectNumber = 20;
 }
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 
 - (void)dealloc {
     [super dealloc];
 }
 
+-(int) numberOfSectionInGridView:(UIGridView *)grid{
+    return 1;
+}
 
-- (CGFloat) gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex
+- (CGFloat) gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex Section:(int)section
+{
+	return 160;
+}
+
+- (CGFloat) gridView:(UIGridView *)grid heightForRowAt:(int)rowIndex Section:(int)section
 {
 	return 80;
 }
 
-- (CGFloat) gridView:(UIGridView *)grid heightForRowAt:(int)rowIndex
+- (NSInteger) numberOfColumnsOfGridView:(UIGridView *) grid ForSection:(int)section
 {
-	return 80;
-}
-
-- (NSInteger) numberOfColumnsOfGridView:(UIGridView *) grid
-{
-	return 4;
+	return 2;
 }
 
 
-- (NSInteger) numberOfCellsOfGridView:(UIGridView *) grid
+- (NSInteger) numberOfCellsOfGridView:(UIGridView *) grid ForSection:(int)section
 {
-	return 33;
+	return objectNumber;
 }
 
-- (UIGridViewCell *) gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex
+- (UIGridViewCell *) gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex Section:(int)section
 {
 	Cell *cell = (Cell *)[grid dequeueReusableCell];
 	
@@ -89,11 +59,17 @@
 	}
 	
 	cell.label.text = [NSString stringWithFormat:@"(%d,%d)", rowIndex, columnIndex];
+    [cell setEditable:YES];
 	
 	return cell;
 }
 
-- (void) gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)colIndex
+-(void) gridView:(UIGridView *)grid didEditRowAt:(int)row AndColumnAt:(int)column InSection:(int)section{
+    objectNumber --;
+    [grid reloadData];
+}
+
+- (void) gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)colIndex Section:(int)section
 {
 	NSLog(@"%d, %d clicked", rowIndex, colIndex);
 }
