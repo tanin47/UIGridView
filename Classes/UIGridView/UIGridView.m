@@ -22,6 +22,7 @@
     self = [super initWithFrame:frame];
     if (self) {
 		[self setUp];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadData) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
 }
@@ -139,7 +140,7 @@
                 cell.container = [[UIView alloc]initWithFrame:CGRectMake(cell.bounds.size.width-10, (cell.bounds.size.height/2)-15 , 0, 30)];
                 [cell.deleteButton setFrame:CGRectMake(-60, 0 , 60, 30)];
                 [cell.deleteButton setBackgroundImage:[[UIImage imageNamed:@"Button_Delete"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
-                [cell.deleteButton setTitle:NSLocalizedString(@"DELETE", nil) forState:UIControlStateNormal];
+                [cell.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
                 [cell.deleteButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
                 [cell.deleteButton setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
                 [cell.deleteButton addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
