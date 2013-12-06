@@ -1,15 +1,15 @@
 //
-//  UIGridViewCell.m
+//  TNGridViewCell.m
 //  foodling2
 //
 //  Created by Tanin Na Nakorn on 3/6/12.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "UIGridViewCell.h"
+#import "TNGridViewCell.h"
 
 
-@implementation UIGridViewCell
+@implementation TNGridViewCell
 
 @synthesize rowIndex;
 @synthesize colIndex;

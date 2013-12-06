@@ -6,10 +6,10 @@
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "uigridviewAppDelegate.h"
+#import "TNGridViewDemoAppDelegate.h"
 #import "RootViewController.h"
 
-@implementation uigridviewAppDelegate
+@implementation TNGridViewDemoAppDelegate
 
 @synthesize window;
 

@@ -1,5 +1,5 @@
 //
-//  UIGridViewRow.h
+//  TNGridViewRow.h
 //  foodling2
 //
 //  Created by Tanin Na Nakorn on 3/6/12.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UIGridViewRow : UITableViewCell {
+@interface TNGridViewRow : UITableViewCell {
 
 }
 

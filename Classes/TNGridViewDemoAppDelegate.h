@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-@interface uigridviewAppDelegate : NSObject <UIApplicationDelegate> {
+@interface TNGridViewDemoAppDelegate : NSObject <UIApplicationDelegate> {
     
     UIWindow *window;
     

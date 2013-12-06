@@ -59,28 +59,28 @@
 }
 
 
-- (CGFloat) gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex
+- (CGFloat) gridView:(TNGridView *)grid widthForColumnAt:(int)columnIndex
 {
 	return 80;
 }
 
-- (CGFloat) gridView:(UIGridView *)grid heightForRowAt:(int)rowIndex
+- (CGFloat) gridView:(TNGridView *)grid heightForRowAt:(int)rowIndex
 {
 	return 80;
 }
 
-- (NSInteger) numberOfColumnsOfGridView:(UIGridView *) grid
+- (NSInteger) numberOfColumnsOfGridView:(TNGridView *) grid
 {
 	return 4;
 }
 
 
-- (NSInteger) numberOfCellsOfGridView:(UIGridView *) grid
+- (NSInteger) numberOfCellsOfGridView:(TNGridView *) grid
 {
 	return 33;
 }
 
-- (UIGridViewCell *) gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex
+- (TNGridViewCell *) gridView:(TNGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex
 {
 	Cell *cell = (Cell *)[grid dequeueReusableCell];
 	
@@ -93,7 +93,7 @@
 	return cell;
 }
 
-- (void) gridView:(UIGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)colIndex
+- (void) gridView:(TNGridView *)grid didSelectRowAt:(int)rowIndex AndColumnAt:(int)colIndex
 {
 	NSLog(@"%d, %d clicked", rowIndex, colIndex);
 }

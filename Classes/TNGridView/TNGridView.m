@@ -1,20 +1,20 @@
 //
-//  UIGridViewView.m
+//  TNGridViewView.m
 //  foodling2
 //
 //  Created by Tanin Na Nakorn on 3/6/12.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "UIGridView.h"
-#import "UIGridViewDelegate.h"
-#import "UIGridViewCell.h"
-#import "UIGridViewRow.h"
+#import "TNGridView.h"
+#import "TNGridViewDelegate.h"
+#import "TNGridViewCell.h"
+#import "TNGridViewRow.h"
 
-@implementation UIGridView
+@implementation TNGridView
 
 
-@synthesize uiGridViewDelegate;
+@synthesize tnGridViewDelegate;
 
 
 - (id)initWithFrame:(CGRect)frame {
@@ -56,13 +56,13 @@
 - (void)dealloc {
 	self.delegate = nil;
 	self.dataSource = nil;
-	self.uiGridViewDelegate = nil;
+	self.tnGridViewDelegate = nil;
     [super dealloc];
 }
 
-- (UIGridViewCell *) dequeueReusableCell
+- (TNGridViewCell *) dequeueReusableCell
 {
-	UIGridViewCell* temp = tempCell;
+	TNGridViewCell* temp = tempCell;
 	tempCell = nil;
 	return temp;
 }
@@ -83,41 +83,41 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int residue =  ([uiGridViewDelegate numberOfCellsOfGridView:self] % [uiGridViewDelegate numberOfColumnsOfGridView:self]);
+	int residue =  ([tnGridViewDelegate numberOfCellsOfGridView:self] % [tnGridViewDelegate numberOfColumnsOfGridView:self]);
 	
 	if (residue > 0) residue = 1;
 	
-	return ([uiGridViewDelegate numberOfCellsOfGridView:self] / [uiGridViewDelegate numberOfColumnsOfGridView:self]) + residue;
+	return ([tnGridViewDelegate numberOfCellsOfGridView:self] / [tnGridViewDelegate numberOfColumnsOfGridView:self]) + residue;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row];
+    return [tnGridViewDelegate gridView:self heightForRowAt:indexPath.row];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"UIGridViewRow";
+    static NSString *CellIdentifier = @"TNGridViewRow";
 	
-    UIGridViewRow *row = (UIGridViewRow *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TNGridViewRow *row = (TNGridViewRow *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (row == nil) {
-        row = [[[UIGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        row = [[[TNGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	int numCols = [uiGridViewDelegate numberOfColumnsOfGridView:self];
-	int count = [uiGridViewDelegate numberOfCellsOfGridView:self];
+	int numCols = [tnGridViewDelegate numberOfColumnsOfGridView:self];
+	int count = [tnGridViewDelegate numberOfCellsOfGridView:self];
 	
 	CGFloat x = 0.0;
-	CGFloat height = [uiGridViewDelegate gridView:self heightForRowAt:indexPath.row];
+	CGFloat height = [tnGridViewDelegate gridView:self heightForRowAt:indexPath.row];
 	
 	for (int i=0;i<numCols;i++) {
 		
 		if ((i + indexPath.row * numCols) >= count) {
 			
 			if ([row.contentView.subviews count] > i) {
-				((UIGridViewCell *)[row.contentView.subviews objectAtIndex:i]).hidden = YES;
+				((TNGridViewCell *)[row.contentView.subviews objectAtIndex:i]).hidden = YES;
 			}
 			
 			continue;
@@ -129,7 +129,7 @@
 			tempCell = nil;
 		}
 		
-		UIGridViewCell *cell = [uiGridViewDelegate gridView:self 
+		TNGridViewCell *cell = [tnGridViewDelegate gridView:self 
 												cellForRowAt:indexPath.row 
 												 AndColumnAt:i];
 		
@@ -144,7 +144,7 @@
 		cell.rowIndex = indexPath.row;
 		cell.colIndex = i;
 		
-		CGFloat thisWidth = [uiGridViewDelegate gridView:self widthForColumnAt:i];
+		CGFloat thisWidth = [tnGridViewDelegate gridView:self widthForColumnAt:i];
 		cell.frame = CGRectMake(x, 0, thisWidth, height);
 		x += thisWidth;
 	}
@@ -160,8 +160,8 @@
 
 - (IBAction) cellPressed:(id) sender
 {
-	UIGridViewCell *cell = (UIGridViewCell *) sender;
-	[uiGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
+	TNGridViewCell *cell = (TNGridViewCell *) sender;
+	[tnGridViewDelegate gridView:self didSelectRowAt:cell.rowIndex AndColumnAt:cell.colIndex];
 }
 
 
