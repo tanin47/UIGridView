@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIGridViewCell.h"
+#import "TNGridViewCell.h"
 
-@interface Cell : UIGridViewCell {
+@interface Cell : TNGridViewCell {
 
 }
 

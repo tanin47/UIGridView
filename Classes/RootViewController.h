@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIGridView.h"
-#import "UIGridViewDelegate.h"
+#import "TNGridView.h"
+#import "TNGridViewDelegate.h"
 
-@interface RootViewController : UIViewController<UIGridViewDelegate> {
+@interface RootViewController : UIViewController<TNGridViewDelegate> {
 
 }
 
-@property (nonatomic, retain) IBOutlet UIGridView *table;
+@property (nonatomic, retain) IBOutlet TNGridView *table;
 
 @end
