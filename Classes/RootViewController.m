@@ -54,11 +54,6 @@
 }
 
 
-- (void)dealloc {
-    [super dealloc];
-}
-
-
 - (CGFloat) gridView:(TNGridView *)grid widthForColumnAt:(int)columnIndex
 {
 	return 80;

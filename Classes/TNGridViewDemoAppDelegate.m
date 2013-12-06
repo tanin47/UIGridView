@@ -188,16 +188,5 @@
 }
 
 
-- (void)dealloc {
-    
-    [managedObjectContext_ release];
-    [managedObjectModel_ release];
-    [persistentStoreCoordinator_ release];
-    
-    [window release];
-    [super dealloc];
-}
-
-
 @end
 

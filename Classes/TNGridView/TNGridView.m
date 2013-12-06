@@ -57,7 +57,6 @@
 	self.delegate = nil;
 	self.dataSource = nil;
 	self.tnGridViewDelegate = nil;
-    [super dealloc];
 }
 
 - (TNGridViewCell *) dequeueReusableCell
@@ -103,7 +102,7 @@
 	
     TNGridViewRow *row = (TNGridViewRow *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (row == nil) {
-        row = [[[TNGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        row = [[TNGridViewRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 	
 	int numCols = [tnGridViewDelegate numberOfColumnsOfGridView:self];
